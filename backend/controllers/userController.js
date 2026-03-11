@@ -10,18 +10,31 @@ export const getUsersController = async (req, res) => {
 };
 
 export const editUsersController = async (req, res) => {
-    try {
-        const { id } = req.params;
-        console.log(UsersId);
-        await Users.findByIdAndUpdate(id, req.body, {
-            new: true,
-        });
+  try {
 
-        res.status(201).json("Users Updated");
-    } catch (error) {
-        res.status(400).send(error);
-        console.log(error);
-    }
+    const { id } = req.params;
+
+    const user = await Users.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      user
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(400).json({
+      success:false,
+      error
+    });
+
+  }
 };
 //delete Users
 export const deleteUsersController = async (req, res) => {
